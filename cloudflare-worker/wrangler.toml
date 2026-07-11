@@ -1,4 +1,4 @@
-name = "pt-d-121-log"
+name = "pt-d-proposal"
 main = "worker.js"
 compatibility_date = "2026-07-11"
 

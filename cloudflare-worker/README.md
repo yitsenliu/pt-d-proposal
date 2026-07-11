@@ -6,9 +6,9 @@
 
 1. 登入 Cloudflare Dashboard，開啟 **Workers & Pages**。
 2. 點 **Create application** → **Create Worker**。
-3. 名稱填 `pt-d-121-log`，建立後開啟編輯器。
+3. 名稱填 `pt-d-proposal`，建立後開啟編輯器。
 4. 將 `worker.js` 全部內容貼上並部署。
-5. 部署完成後複製 Worker 網址，格式類似 `https://pt-d-121-log.<你的帳號>.workers.dev`。
+5. 部署完成後複製 Worker 網址，格式類似 `https://pt-d-proposal.<你的帳號>.workers.dev`。
 
 ## 2. 設定公開變數
 
@@ -42,7 +42,7 @@
 
 ```js
 window.PTD121_CONFIG = {
-  workerUrl: "https://pt-d-121-log.<你的帳號>.workers.dev",
+  workerUrl: "https://pt-d-proposal.<你的帳號>.workers.dev/api/update",
   turnstileSiteKey: "你的 Site Key"
 };
 ```
@@ -52,6 +52,8 @@ window.PTD121_CONFIG = {
 ## 5. 測試
 
 開啟 `https://yitsenliu.github.io/pt-d-proposal/121.html`，選擇修改人、主成員與至少一位夥伴，完成驗證後確認送出。幾秒後重新整理，最新紀錄會顯示在頁面，並同步寫入 repository 的 `data/121-log.md`。
+
+若送出時看到 `Worker 缺少環境變數`，代表 Cloudflare Worker 的 Variables and Secrets 尚未設定完整。至少需要 `GITHUB_OWNER`、`GITHUB_REPO`、`GITHUB_TOKEN`、`ALLOWED_ORIGIN`、`TURNSTILE_SECRET`；其中 `GITHUB_TOKEN` 要有該 repository 的 Contents: Read and write 權限。
 
 ## 風險界線
 

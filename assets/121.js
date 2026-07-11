@@ -79,8 +79,12 @@
   const sendRecords = async (payload) => {
     if (!config.workerUrl || config.workerUrl.includes("replace-after-deploy")) throw new Error("管理者尚未完成雲端寫入設定。");
     const response = await fetch(config.workerUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    const body = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(body.error || "儲存失敗，請稍後再試。");
+    const text = await response.text();
+    let body = {};
+    try { body = text ? JSON.parse(text) : {}; } catch { body = { error: text }; }
+    console.log("121 update status:", response.status);
+    console.log("121 update response:", body);
+    if (!response.ok) throw new Error(body.error || `儲存失敗（HTTP ${response.status}）。`);
     return body;
   };
 

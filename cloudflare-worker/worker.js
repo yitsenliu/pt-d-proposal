@@ -25,7 +25,7 @@ async function verifyTurnstile(token, request, env) {
 async function github(env, path, options = {}) {
   requireEnv(env, ["GITHUB_OWNER", "GITHUB_REPO", "GITHUB_TOKEN"]);
   const url = `https://api.github.com/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${path}?ref=${env.GITHUB_BRANCH || "main"}`;
-  return fetch(url, { ...options, headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${env.GITHUB_TOKEN}`, "X-GitHub-Api-Version": "2022-11-28", ...(options.headers || {}) } });
+  return fetch(url, { ...options, headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${env.GITHUB_TOKEN}`, "X-GitHub-Api-Version": "2022-11-28", "User-Agent": "pt-d-proposal-worker", ...(options.headers || {}) } });
 }
 
 async function githubErrorMessage(res, fallback) {
@@ -34,7 +34,7 @@ async function githubErrorMessage(res, fallback) {
     const body = JSON.parse(text);
     return `${fallback}（GitHub HTTP ${res.status}${body.message ? `：${body.message}` : ""}）`;
   } catch {
-    return `${fallback}（GitHub HTTP ${res.status}）`;
+    return `${fallback}（GitHub HTTP ${res.status}${text ? `：${text.slice(0, 180)}` : ""}）`;
   }
 }
 

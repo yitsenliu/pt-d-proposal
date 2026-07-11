@@ -1,6 +1,6 @@
 (() => {
   const config = window.PTD121_CONFIG || {};
-  const state = { members: [], records: [], turnstileToken: "" };
+  const state = { members: [], records: [], turnstileToken: "", turnstileWidgetId: null };
   const $ = (selector) => document.querySelector(selector);
   const editor = $("#editor");
   const primary = $("#primary-member");
@@ -72,8 +72,15 @@
     const script = document.createElement("script");
     script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
     script.async = true;
-    script.onload = () => window.turnstile.render("#turnstile-box", { sitekey: config.turnstileSiteKey, callback: (token) => { state.turnstileToken = token; }, "expired-callback": () => { state.turnstileToken = ""; } });
+    script.onload = () => {
+      state.turnstileWidgetId = window.turnstile.render("#turnstile-box", { sitekey: config.turnstileSiteKey, callback: (token) => { state.turnstileToken = token; }, "expired-callback": () => { state.turnstileToken = ""; }, "error-callback": () => { state.turnstileToken = ""; } });
+    };
     document.head.append(script);
+  };
+
+  const resetTurnstile = () => {
+    state.turnstileToken = "";
+    if (window.turnstile && state.turnstileWidgetId !== null) window.turnstile.reset(state.turnstileWidgetId);
   };
 
   const sendRecords = async (payload) => {
@@ -99,7 +106,7 @@
       await loadRecords();
       setStatus("更新完成；同組舊紀錄已由本次資料取代。");
     } catch (error) { setStatus(error.message, true); }
-    finally { button.disabled = false; }
+    finally { resetTurnstile(); button.disabled = false; }
   };
 
   form.addEventListener("submit", (event) => {
@@ -107,6 +114,7 @@
     const selected = [...partners.querySelectorAll("input:checked")].map((item) => item.value);
     if (!selected.length) { setStatus("請至少勾選一位完成 121 的夥伴。", true); return; }
     if (form.website.value) { setStatus("送出失敗。", true); return; }
+    if (config.turnstileSiteKey && !state.turnstileToken) { setStatus("請先完成人機驗證。", true); return; }
     const payload = { editor: editor.value, primary: primary.value, partners: selected, note: $("#note").value.trim(), turnstileToken: state.turnstileToken, website: form.website.value };
     $("#confirm-text").innerHTML = `由 <strong>${esc(payload.editor)}</strong> 更新：<strong>${esc(payload.primary)}</strong> 已完成與 <strong>${selected.map(esc).join("、")}</strong> 的 121。相同組合的舊紀錄會被本次資料取代。`;
     dialog.showModal();

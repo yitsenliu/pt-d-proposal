@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12372a">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://challenges.cloudflare.com; style-src 'self'; connect-src 'self' https://*.workers.dev https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()">
+  <meta name="description" content="D 組 121 深度交流完成紀錄。">
+  <title>D 組 121 互動紀錄</title>
+  <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/121.css">
+</head>
+<body class="record-page">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="record-header">
+    <a class="brand record-brand" href="index.html"><span>D</span> 商用不動產升級鏈</a>
+    <a class="back-link" href="index.html">← 返回提案首頁</a>
+  </header>
+
+  <main id="main" class="record-main">
+    <section class="record-intro">
+      <p class="eyebrow">D GROUP · 121 CHECK-IN</p>
+      <h1>121 深度交流紀錄</h1>
+      <p>一次勾選多位已完成交流的夥伴，送出後以最新紀錄覆寫同一組合的舊資料。</p>
+    </section>
+
+    <section class="record-layout" aria-label="121 紀錄與填寫表單">
+      <aside class="record-form-card">
+        <div class="card-topline"><p class="eyebrow">BATCH UPDATE</p><span class="step">批次登錄</span></div>
+        <h2>登錄已完成的 121</h2>
+        <p class="form-note">修改人只作為紀錄註記；提交前請確認本次交流已實際完成。</p>
+        <form id="record-form">
+          <label for="editor">1. 這次由誰更新？</label>
+          <select id="editor" name="editor" required><option value="">請選擇修改人</option></select>
+
+          <label for="primary-member">2. 哪位成員完成 121？</label>
+          <select id="primary-member" name="primaryMember" required><option value="">請選擇主成員</option></select>
+
+          <fieldset id="partner-fieldset" disabled>
+            <legend>3. 與哪些夥伴完成？<span>可複選</span></legend>
+            <p class="selection-hint">請先選擇主成員。</p>
+            <div id="partner-list" class="partner-list" aria-live="polite"></div>
+          </fieldset>
+
+          <label for="note">備註 <span>選填，最多 120 字</span></label>
+          <textarea id="note" name="note" maxlength="120" rows="3" placeholder="例如：已完成首次 121，討論廠辦節能合作方向。"></textarea>
+          <input id="website" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div id="turnstile-box" class="turnstile-box" aria-label="人機驗證"></div>
+          <button id="submit-record" class="record-submit" type="submit">確認並更新紀錄</button>
+          <p id="form-status" class="form-status" role="status"></p>
+        </form>
+      </aside>
+
+      <section class="records-panel" aria-labelledby="latest-title">
+        <div class="records-heading"><div><p class="eyebrow">LATEST RECORDS</p><h2 id="latest-title">最新完成紀錄</h2></div><button id="refresh-records" class="refresh-button" type="button">重新整理</button></div>
+        <p id="record-summary" class="record-summary">正在讀取紀錄…</p>
+        <div id="record-list" class="record-list" aria-live="polite"></div>
+      </section>
+    </section>
+
+    <section class="member-progress" aria-labelledby="progress-title">
+      <div class="records-heading"><div><p class="eyebrow">TEAM PROGRESS</p><h2 id="progress-title">成員 121 完成概況</h2></div><p>依最新紀錄統計</p></div>
+      <div id="progress-grid" class="progress-grid"></div>
+    </section>
+  </main>
+
+  <dialog id="confirm-dialog" class="confirm-dialog">
+    <form method="dialog">
+      <p class="eyebrow">FINAL CHECK</p><h2>確認批次更新</h2>
+      <p id="confirm-text"></p>
+      <div class="dialog-actions"><button value="cancel" class="dialog-cancel">返回檢查</button><button id="confirm-submit" value="confirm" class="record-submit">確認送出</button></div>
+    </form>
+  </dialog>
+
+  <footer class="record-footer"><span>僅記錄已完成的 121；同一組成員以最後更新為準。</span><a href="data/121-log.md" target="_blank" rel="noopener">查看原始紀錄 (.md)</a></footer>
+  <script src="assets/121-config.js"></script>
+  <script src="assets/121.js"></script>
+</body>
+</html>

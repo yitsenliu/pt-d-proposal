@@ -1,0 +1,14 @@
+name = "pt-d-121-log"
+main = "worker.js"
+compatibility_date = "2026-07-11"
+
+[vars]
+GITHUB_OWNER = "yitsenliu"
+GITHUB_REPO = "pt-d-proposal"
+GITHUB_BRANCH = "main"
+LOG_PATH = "data/121-log.md"
+ALLOWED_ORIGIN = "https://yitsenliu.github.io"
+
+# 請透過 Cloudflare Dashboard 設定私密變數：
+# GITHUB_TOKEN：Fine-grained PAT，只授權本 repository 的 Contents: Read and write。
+# TURNSTILE_SECRET：Cloudflare Turnstile 的 Secret Key。

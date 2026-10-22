@@ -35,3 +35,5 @@
 ## 121 雲端紀錄
 
 `121.html` 讓成員批次登錄完成的 121；同一組成員的紀錄以最新送出資料為準，寫入 `data/121-log.md`。網站頁面不能安全保存 GitHub 寫入權限，因此需部署 `cloudflare-worker`，並把 Worker 網址與 Turnstile Site Key 填入 `assets/121-config.js`。完整設定步驟見 `cloudflare-worker/README.md`。
+
+Worker 維持 GitHub 儲存，並限制實際輸入 16 KiB、驗證 Turnstile hostname 及上游逾時；測試可執行 `node --test test/worker.test.mjs`。安全防護與公開存取界線見 `cloudflare-worker/README.md`。
